@@ -15,13 +15,17 @@ object Permissions {
         formatPermission("color") to TagResolver.resolver(
             StandardTags.color(),
             StandardTags.gradient(),
-            StandardTags.rainbow()
+            StandardTags.rainbow(),
+            StandardTags.pride(),
+            StandardTags.shadowColor(),
         ),
         formatPermission("reset") to StandardTags.reset(),
         formatPermission("decorations") to StandardTags.decorations(),
         formatPermission("insertion") to StandardTags.insertion(),
         formatPermission("click") to StandardTags.clickEvent(),
         formatPermission("hover") to StandardTags.hoverEvent(),
+        formatPermission("head") to StandardTags.sequentialHead(),
+        formatPermission("sprite") to StandardTags.sprite(),
     )
 
     fun register() {
