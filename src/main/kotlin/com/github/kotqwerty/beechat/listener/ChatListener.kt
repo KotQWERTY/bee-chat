@@ -41,7 +41,7 @@ object ChatListener : Listener {
             if (channel == null) return@renderer formattedMessage
 
             val channelTags = TagResolver.resolver(baseTags, Placeholders.formattedMessage(formattedMessage))
-            val channelMessage = MiniMessage.miniMessage().deserialize(channel.format, source, baseTags)
+            val channelMessage = MiniMessage.miniMessage().deserialize(channel.format, source, channelTags)
 
             val shouldApplySpyFormatting = viewer is Player && !channel.canSee(sender, viewer)
             if (!shouldApplySpyFormatting) return@renderer channelMessage
