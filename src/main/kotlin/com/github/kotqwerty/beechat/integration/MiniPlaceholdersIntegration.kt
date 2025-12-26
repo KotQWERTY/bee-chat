@@ -1,21 +1,22 @@
 package com.github.kotqwerty.beechat.integration
 
 import io.github.miniplaceholders.api.MiniPlaceholders
-import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 
 object MiniPlaceholdersIntegration : PluginIntegration {
     override val pluginName = "MiniPlaceholders"
 
-    fun audiencePlaceholders(audience: Audience) = if (isAvailable) {
-        MiniPlaceholders.getAudiencePlaceholders(audience)
-    } else {
-        TagResolver.empty()
-    }
+    val audiencePlaceholders: TagResolver
+        get() = if (isAvailable) {
+            MiniPlaceholders.audiencePlaceholders()
+        } else {
+            TagResolver.empty()
+        }
 
-    fun globalPlaceholders() = if (isAvailable) {
-        MiniPlaceholders.getGlobalPlaceholders()
-    } else {
-        TagResolver.empty()
-    }
+    val globalPlaceholders: TagResolver
+        get() = if (isAvailable) {
+            MiniPlaceholders.globalPlaceholders()
+        } else {
+            TagResolver.empty()
+        }
 }
