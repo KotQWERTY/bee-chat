@@ -10,6 +10,7 @@ import com.github.kotqwerty.beechat.listener.ChatListener
 import com.github.kotqwerty.beechat.listener.JoinListener
 import com.github.kotqwerty.beechat.listener.QuitListener
 import com.github.kotqwerty.beechat.utils.UpdateChecker
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents
 import kotlinx.serialization.SerializationException
 import org.bstats.bukkit.Metrics
 import org.bukkit.plugin.java.JavaPlugin
@@ -28,7 +29,8 @@ class BeeChat : JavaPlugin() {
         reload()
 
         Permissions.register()
-        BeeChatCommand.register()
+
+        registerCommand()
 
         ChatListener.register(this)
         JoinListener.register(this)
@@ -61,6 +63,7 @@ class BeeChat : JavaPlugin() {
     private fun createYaml(): Yaml =
         Yaml(
             configuration = YamlConfiguration(
+                strictMode = false,
                 breakScalarsAt = 120,
                 yamlNamingStrategy = YamlNamingStrategy.KebabCase,
             )
@@ -81,6 +84,12 @@ class BeeChat : JavaPlugin() {
         if (config.checkForUpdates) {
             Task { UpdateChecker.checkForUpdates(componentLogger) }.runAsync()
         }
+    }
+
+    private fun registerCommand() {
+        lifecycleManager.registerEventHandler(LifecycleEvents.COMMANDS.newHandler { event ->
+            event.registrar().register(BeeChatCommand.root())
+        })
     }
 
     companion object {

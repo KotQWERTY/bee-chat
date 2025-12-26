@@ -1,78 +1,52 @@
 package com.github.kotqwerty.beechat
 
 import com.github.kotqwerty.beechat.extensions.spyModeEnabled
-import org.bukkit.Bukkit
-import org.bukkit.command.Command
-import org.bukkit.command.CommandSender
-import org.bukkit.command.PluginIdentifiableCommand
+import com.mojang.brigadier.Command
+import com.mojang.brigadier.tree.LiteralCommandNode
+import io.papermc.paper.command.brigadier.CommandSourceStack
+import io.papermc.paper.command.brigadier.Commands
 import org.bukkit.entity.Player
 
-object BeeChatCommand : Command("beechat"), PluginIdentifiableCommand {
-    override fun execute(
-        sender: CommandSender,
-        commandLabel: String,
-        args: Array<out String>,
-    ): Boolean {
-        val messages = plugin.config.messages
+object BeeChatCommand {
+    fun root(): LiteralCommandNode<CommandSourceStack> = Commands.literal("beechat")
+        .then(reload())
+        .then(spy())
+        .build()
 
-        return when (args.firstOrNull()) {
-            "reload" -> {
-                if (!sender.hasPermission(Permissions.reload)) {
-                    sender.sendMessage(Bukkit.permissionMessage())
-                    return false
-                }
+    private fun reload() = Commands.literal("reload")
+        .requires { it.sender.hasPermission(Permissions.reload) }
+        .executes { ctx ->
+            val sender = ctx.source.sender
 
-                plugin.reload()
-                sender.sendRichMessage(messages.reload)
-                true
-            }
-            "spy" -> {
-                if (sender !is Player) {
-                    sender.sendRichMessage(messages.notPlayer)
-                    return false
-                }
+            val plugin = BeeChat.instance
+            plugin.reload()
 
-                if (!sender.hasPermission(Permissions.spy)) {
-                    sender.sendMessage(Bukkit.permissionMessage())
-                    return false
-                }
+            sender.sendRichMessage(plugin.config.messages.reload)
 
-                if (sender.spyModeEnabled) {
-                    sender.spyModeEnabled = false
-                    sender.sendRichMessage(messages.spyModeDisabled)
-                } else {
-                    sender.spyModeEnabled = true
-                    sender.sendRichMessage(messages.spyModeEnabled)
-                }
-
-                true
-            }
-            else -> {
-                sender.sendRichMessage(messages.unknownSubcommand)
-                false
-            }
-        }
-    }
-
-    override fun tabComplete(
-        sender: CommandSender,
-        alias: String,
-        args: Array<out String>,
-    ): MutableList<String> {
-        val completions = mutableListOf<String>()
-        if (args.size == 1) {
-            if (sender.hasPermission(Permissions.reload)) {
-                completions.add("reload")
-            }
-            if (sender.hasPermission(Permissions.spy) && sender is Player) {
-                completions.add("spy")
-            }
+            Command.SINGLE_SUCCESS
         }
 
-        return completions
-    }
+    private fun spy() = Commands.literal("spy")
+        .requires { it.sender.hasPermission(Permissions.spy) }
+        .executes { ctx ->
+            val sender = ctx.source.sender
 
-    override fun getPlugin(): BeeChat {
-        return BeeChat.instance
-    }
+            val plugin = BeeChat.instance
+            val messages = plugin.config.messages
+
+            if (sender !is Player) {
+                sender.sendRichMessage(messages.notPlayer)
+                return@executes Command.SINGLE_SUCCESS
+            }
+
+            if (sender.spyModeEnabled) {
+                sender.spyModeEnabled = false
+                sender.sendRichMessage(messages.spyModeDisabled)
+            } else {
+                sender.spyModeEnabled = true
+                sender.sendRichMessage(messages.spyModeEnabled)
+            }
+
+            Command.SINGLE_SUCCESS
+        }
 }

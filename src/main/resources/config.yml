@@ -76,8 +76,6 @@ tab-list:
   player-name: '<name>'
 
 messages:
-  # Message for unknown subcommand in `/beechat` command.
-  unknown-subcommand: '<red>Unknown subcommand'
   # Message for '/beechat reload' command.
   reload: '<green>The <gradient:yellow:gold>BeeChat</gradient> configuration has been reloaded'
   # Message when a non-player entity tries to execute a player-only command.
