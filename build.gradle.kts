@@ -18,7 +18,7 @@ dependencies {
     compileOnly("io.github.miniplaceholders:miniplaceholders-api:3.1.0")
     compileOnly("me.clip:placeholderapi:2.11.7")
     implementation("com.charleskorn.kaml:kaml:0.104.0")
-    implementation("org.bstats:bstats-bukkit:3.0.2")
+    implementation("org.bstats:bstats-bukkit:3.1.0")
 }
 
 tasks {
