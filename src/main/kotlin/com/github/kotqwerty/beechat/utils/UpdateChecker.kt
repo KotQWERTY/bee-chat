@@ -1,6 +1,9 @@
 package com.github.kotqwerty.beechat.utils
 
 import com.github.kotqwerty.beechat.BeeChat
+import io.github.z4kn4fein.semver.Version
+import io.github.z4kn4fein.semver.toVersion
+import io.github.z4kn4fein.semver.toVersionOrNull
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.NamedTextColor
@@ -17,25 +20,25 @@ object UpdateChecker {
     fun checkForUpdates(logger: ComponentLogger) {
         logger.info(Message.CHECKING_FOR_UPDATES)
 
+        val currentVersion = BeeChat.instance.pluginMeta.version.toVersion()
         val latestVersion = latestVersion()
+
         if (latestVersion == null) {
             logger.warn(Message.FAILED_TO_CHECK_FOR_UPDATES)
             return
         }
 
-        val currentVersion = BeeChat.instance.pluginMeta.version
-
-        if (latestVersion == currentVersion) {
+        if (latestVersion <= currentVersion) {
             logger.info(Message.NO_NEW_VERSION_AVAILABLE)
         } else {
-            logger.info(Message.newVersionAvailable(currentVersion, latestVersion))
+            logger.info(Message.newVersionAvailable(currentVersion.toString(), latestVersion.toString()))
             logger.info(Message.hangarLink)
             logger.info(Message.modrinthLink)
             logger.info(Message.githubLink)
         }
     }
 
-    private fun latestVersion(): String? {
+    private fun latestVersion(): Version? {
         val client = HttpClient.newHttpClient()
         val uri = URI(LATEST_VERSION_URL)
 
@@ -52,7 +55,7 @@ object UpdateChecker {
         }
 
         return if (response.statusCode() == 200) {
-            response.body()
+            response.body().toVersionOrNull()
         } else {
             null
         }
