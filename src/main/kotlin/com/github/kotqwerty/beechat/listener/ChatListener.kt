@@ -3,12 +3,12 @@ package com.github.kotqwerty.beechat.listener
 import com.github.kotqwerty.beechat.BeeChat
 import com.github.kotqwerty.beechat.Placeholders
 import com.github.kotqwerty.beechat.configuration.ChatChannelConfig
-import com.github.kotqwerty.beechat.extensions.miniMessage
 import com.github.kotqwerty.beechat.extensions.spyModeEnabled
 import com.github.kotqwerty.beechat.integration.MiniPlaceholdersIntegration
 import com.github.kotqwerty.beechat.integration.PlaceholderAPIIntegration
 import io.papermc.paper.event.player.AsyncChatEvent
 import net.kyori.adventure.audience.Audience
+import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -34,20 +34,20 @@ object ChatListener : Listener {
             val baseTags = TagResolver.resolver(
                 Placeholders.name(sourceDisplayName),
                 Placeholders.message(source, message),
-                MiniPlaceholdersIntegration.audiencePlaceholders(source)
+                MiniPlaceholdersIntegration.audiencePlaceholders,
             )
 
-            val formattedMessage = format.miniMessage(baseTags)
+            val formattedMessage = MiniMessage.miniMessage().deserialize(format, source, baseTags)
             if (channel == null) return@renderer formattedMessage
 
             val channelTags = TagResolver.resolver(baseTags, Placeholders.formattedMessage(formattedMessage))
-            val channelMessage = channel.format.miniMessage(channelTags)
+            val channelMessage = MiniMessage.miniMessage().deserialize(channel.format, source, baseTags)
 
             val shouldApplySpyFormatting = viewer is Player && !channel.canSee(sender, viewer)
             if (!shouldApplySpyFormatting) return@renderer channelMessage
 
             val spyTags = TagResolver.resolver(channelTags, Placeholders.channelMessage(channelMessage))
-            config.spy.format.miniMessage(spyTags)
+            MiniMessage.miniMessage().deserialize(config.spy.format, source, spyTags)
         }
     }
 
