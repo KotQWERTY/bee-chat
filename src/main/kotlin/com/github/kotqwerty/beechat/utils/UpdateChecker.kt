@@ -23,7 +23,6 @@ object UpdateChecker {
             return
         }
 
-        @Suppress("UnstableApiUsage")
         val currentVersion = BeeChat.instance.pluginMeta.version
 
         if (latestVersion == currentVersion) {
