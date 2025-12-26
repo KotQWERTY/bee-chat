@@ -1,0 +1,27 @@
+package com.github.kotqwerty.beechat
+
+import org.bukkit.Bukkit
+import org.bukkit.scheduler.BukkitTask
+
+class Task(val execute: () -> Unit) {
+    private var bukkitTask: BukkitTask? = null
+
+    fun runAsync() {
+        stop()
+        bukkitTask = Bukkit.getScheduler().runTaskAsynchronously(BeeChat.instance, execute)
+    }
+
+    fun runTimer(period: Long, delay: Long = 0) {
+        stop()
+        bukkitTask = Bukkit.getScheduler().runTaskTimer(
+            BeeChat.instance,
+            execute,
+            delay,
+            period
+        )
+    }
+
+    fun stop() {
+        bukkitTask?.cancel()
+    }
+}

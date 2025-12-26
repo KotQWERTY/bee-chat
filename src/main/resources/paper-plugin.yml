@@ -1,0 +1,14 @@
+name: BeeChat
+main: com.github.kotqwerty.beechat.BeeChat
+version: '$version'
+api-version: '1.20'
+authors:
+  - KotQWERTY
+dependencies:
+  server:
+    MiniPlaceholders:
+      required: false
+      load: BEFORE
+    PlaceholderAPI:
+      required: false
+      load: BEFORE
