@@ -82,7 +82,6 @@ tab-list:
   player-name: '<luckperms_prefix> <reset><name> <luckperms_suffix>'
 
 messages:
-  unknown-subcommand: '<red>Unknown subcommand'
   reload: '<green>The <gradient:yellow:gold>BeeChat</gradient> configuration has been reloaded'
   not-player: '<red>This command can only be executed by a player'
   spy-mode-enabled: '<aqua>Spy</aqua> mode <green>enabled</green>. Enter the command again to <red>disable</red>'
