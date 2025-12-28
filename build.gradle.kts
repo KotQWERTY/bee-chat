@@ -17,7 +17,8 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
     compileOnly("io.github.miniplaceholders:miniplaceholders-api:3.1.0")
     compileOnly("me.clip:placeholderapi:2.11.7")
-    implementation("com.charleskorn.kaml:kaml:0.104.0")
+    implementation("org.spongepowered:configurate-yaml:4.2.0")
+    implementation("org.spongepowered:configurate-extra-kotlin:4.2.0")
     implementation("org.bstats:bstats-bukkit:3.1.0")
     implementation("io.github.z4kn4fein:semver:3.0.0")
 }

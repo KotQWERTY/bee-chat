@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
 
 object TabList {
     fun send(player: Player) {
-        val tabListConfig = BeeChat.instance.config.tabList
+        val tabListConfig = BeeChat.instance.config.access().tabList
         val audiencePlaceholders = MiniPlaceholdersIntegration.audiencePlaceholders
 
         if (tabListConfig.playerName.isNotEmpty()) {

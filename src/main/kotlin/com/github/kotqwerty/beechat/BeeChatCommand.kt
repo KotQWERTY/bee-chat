@@ -21,7 +21,7 @@ object BeeChatCommand {
             val plugin = BeeChat.instance
             plugin.reload()
 
-            sender.sendRichMessage(plugin.config.messages.reload)
+            sender.sendRichMessage(plugin.config.access().messages.reload)
 
             Command.SINGLE_SUCCESS
         }
@@ -32,7 +32,7 @@ object BeeChatCommand {
             val sender = ctx.source.sender
 
             val plugin = BeeChat.instance
-            val messages = plugin.config.messages
+            val messages = plugin.config.access().messages
 
             if (sender !is Player) {
                 sender.sendRichMessage(messages.notPlayer)

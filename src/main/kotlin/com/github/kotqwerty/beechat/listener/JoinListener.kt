@@ -10,7 +10,7 @@ object JoinListener : Listener {
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
         val config = BeeChat.instance.config
-        if (config.tabList.enable) {
+        if (config.access().tabList.enable) {
             TabList.send(event.player)
         }
     }

@@ -17,7 +17,7 @@ import org.bukkit.event.Listener
 object ChatListener : Listener {
     @EventHandler
     fun onChat(event: AsyncChatEvent) {
-        val config = BeeChat.instance.config.chat
+        val config = BeeChat.instance.config.access().chat
         val sender = event.player
         val format = PlaceholderAPIIntegration.parsePlaceholders(sender, config.messageFormat)
         if (format.isEmpty()) return

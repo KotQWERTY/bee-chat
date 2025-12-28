@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerQuitEvent
 object QuitListener : Listener {
     @EventHandler
     fun onQuit(event: PlayerQuitEvent) {
-        val config = BeeChat.instance.config.chat
+        val config = BeeChat.instance.config.access().chat
         if (config.spy.disableOnLeave) {
             val player = event.player
             if (player.spyModeEnabled) {

@@ -1,23 +1,42 @@
 package com.github.kotqwerty.beechat
 
-import com.charleskorn.kaml.Yaml
-import com.charleskorn.kaml.YamlConfiguration
-import com.charleskorn.kaml.YamlNamingStrategy
-import com.charleskorn.kaml.decodeFromStream
 import com.github.kotqwerty.beechat.configuration.Config
+import com.github.kotqwerty.beechat.configuration.Configuration
 import com.github.kotqwerty.beechat.extensions.register
 import com.github.kotqwerty.beechat.listener.ChatListener
 import com.github.kotqwerty.beechat.listener.JoinListener
 import com.github.kotqwerty.beechat.listener.QuitListener
 import com.github.kotqwerty.beechat.utils.UpdateChecker
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents
-import kotlinx.serialization.SerializationException
 import org.bstats.bukkit.Metrics
 import org.bukkit.plugin.java.JavaPlugin
-import java.io.File
+import org.spongepowered.configurate.kotlin.extensions.get
+import org.spongepowered.configurate.kotlin.objectMapperFactory
+import org.spongepowered.configurate.yaml.YamlConfigurationLoader
 
 class BeeChat : JavaPlugin() {
-    lateinit var config: Config private set
+    val config = Configuration {
+        val configFile = dataFolder.resolve("config.yml")
+
+        val loader = YamlConfigurationLoader.builder()
+            .file(configFile)
+            .defaultOptions { options ->
+                options.serializers { builder ->
+                    builder.registerAnnotatedObjects(objectMapperFactory())
+                }
+            }
+            .build()
+
+        saveDefaultConfig()
+
+        try {
+            loader.load().get<Config>(default = ::Config)
+        } catch (e: Exception) {
+            componentLogger.error("Failed to load config.yml:", e)
+            componentLogger.warn("Using the default configuration due to a previous error")
+            Config()
+        }
+    }
 
     private val tabListUpdateTask = Task(execute = TabList::update)
 
@@ -42,46 +61,18 @@ class BeeChat : JavaPlugin() {
     }
 
     fun reload() {
-        config = saveAndLoadConfig()
+        config.reload()
         if (shouldRestartTabListTask()) {
-            tabListUpdateTask.runTimer(period = config.tabList.updatePeriod)
+            tabListUpdateTask.runTimer(period = config.access().tabList.updatePeriod)
         }
     }
 
-    private fun shouldRestartTabListTask(): Boolean =
-        config.tabList.enable && config.tabList.updatePeriod > 0
-
-    private fun saveAndLoadConfig(): Config {
-        val yaml = createYaml()
-        val configFile = File(dataFolder, "config.yml")
-
-        saveDefaultConfig()
-
-        return loadConfigFromFile(configFile, yaml)
+    private fun shouldRestartTabListTask(): Boolean = config.access().run {
+        tabList.enable && tabList.updatePeriod > 0
     }
-
-    private fun createYaml(): Yaml =
-        Yaml(
-            configuration = YamlConfiguration(
-                strictMode = false,
-                breakScalarsAt = 120,
-                yamlNamingStrategy = YamlNamingStrategy.KebabCase,
-            )
-        )
-
-    private fun loadConfigFromFile(file: File, yaml: Yaml): Config =
-        file.inputStream().use { stream ->
-            try {
-                yaml.decodeFromStream(stream)
-            } catch (e: SerializationException) {
-                logger.severe("Failed to load config.yml: ${e.localizedMessage}")
-                logger.warning("Using the default configuration due to a previous error")
-                Config()
-            }
-        }
 
     private fun checkForUpdatesAsync() {
-        if (config.checkForUpdates) {
+        if (config.access().checkForUpdates) {
             Task { UpdateChecker.checkForUpdates(componentLogger) }.runAsync()
         }
     }

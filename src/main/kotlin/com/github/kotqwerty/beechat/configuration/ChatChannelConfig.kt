@@ -1,9 +1,9 @@
 package com.github.kotqwerty.beechat.configuration
 
-import kotlinx.serialization.Serializable
 import org.bukkit.entity.Player
+import org.spongepowered.configurate.objectmapping.ConfigSerializable
 
-@Serializable
+@ConfigSerializable
 data class ChatChannelConfig(
     val identifier: String = "",
     val distance: Double = 0.0,

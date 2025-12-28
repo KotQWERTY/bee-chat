@@ -1,8 +1,8 @@
 package com.github.kotqwerty.beechat.configuration
 
-import kotlinx.serialization.Serializable
+import org.spongepowered.configurate.objectmapping.ConfigSerializable
 
-@Serializable
+@ConfigSerializable
 data class TabListConfig(
     val enable: Boolean = false,
     val updatePeriod: Long = 200,

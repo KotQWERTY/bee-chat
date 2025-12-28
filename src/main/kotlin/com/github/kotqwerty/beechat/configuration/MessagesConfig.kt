@@ -1,8 +1,8 @@
 package com.github.kotqwerty.beechat.configuration
 
-import kotlinx.serialization.Serializable
+import org.spongepowered.configurate.objectmapping.ConfigSerializable
 
-@Serializable
+@ConfigSerializable
 data class MessagesConfig(
     val reload: String = "<green>The <gradient:yellow:gold>BeeChat</gradient> configuration has been reloaded",
     val notPlayer: String = "<red>This command can only be executed by a player",
