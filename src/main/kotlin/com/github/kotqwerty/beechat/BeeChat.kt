@@ -1,6 +1,6 @@
 package com.github.kotqwerty.beechat
 
-import com.github.kotqwerty.beechat.configuration.Config
+import com.github.kotqwerty.beechat.configuration.PluginConfig
 import com.github.kotqwerty.beechat.configuration.Configuration
 import com.github.kotqwerty.beechat.extensions.register
 import com.github.kotqwerty.beechat.listener.ChatListener
@@ -30,11 +30,11 @@ class BeeChat : JavaPlugin() {
         saveDefaultConfig()
 
         try {
-            loader.load().get<Config>(default = ::Config)
+            loader.load().get<PluginConfig>(default = ::PluginConfig)
         } catch (e: Exception) {
             componentLogger.error("Failed to load config.yml:", e)
             componentLogger.warn("Using the default configuration due to a previous error")
-            Config()
+            PluginConfig()
         }
     }
 
