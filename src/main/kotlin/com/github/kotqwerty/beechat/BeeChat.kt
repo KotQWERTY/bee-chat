@@ -19,7 +19,8 @@ class BeeChat : JavaPlugin() {
 
     val config = addConfiguration("config.yml", default = ::PluginConfig)
 
-    private val tabListUpdateTask = Task(execute = TabList::update)
+    private val tabList = TabList(config)
+    private val tabListUpdateTask = Task(execute = tabList::update)
 
     init {
         instance = this
@@ -67,7 +68,7 @@ class BeeChat : JavaPlugin() {
         registerCommand()
 
         ChatListener(config).register(this)
-        JoinListener(config).register(this)
+        JoinListener(config, tabList).register(this)
         QuitListener(config).register(this)
 
         Metrics(this, 24314)

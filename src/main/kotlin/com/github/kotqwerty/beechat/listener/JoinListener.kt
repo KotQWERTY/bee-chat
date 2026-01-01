@@ -7,11 +7,14 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 
-class JoinListener(private val config: Configuration<PluginConfig>) : Listener {
+class JoinListener(
+    private val config: Configuration<PluginConfig>,
+    private val tabList: TabList,
+) : Listener {
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
         if (config.access().tabList.enable) {
-            TabList.send(event.player)
+            tabList.send(event.player)
         }
     }
 }

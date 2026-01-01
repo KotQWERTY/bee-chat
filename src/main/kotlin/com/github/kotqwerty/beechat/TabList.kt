@@ -1,5 +1,7 @@
 package com.github.kotqwerty.beechat
 
+import com.github.kotqwerty.beechat.configuration.Configuration
+import com.github.kotqwerty.beechat.configuration.PluginConfig
 import com.github.kotqwerty.beechat.integration.MiniPlaceholdersIntegration
 import com.github.kotqwerty.beechat.integration.PlaceholderAPIIntegration
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -7,9 +9,9 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
-object TabList {
+class TabList(private val config: Configuration<PluginConfig>) {
     fun send(player: Player) {
-        val tabListConfig = BeeChat.instance.config.access().tabList
+        val tabListConfig = config.access().tabList
         val audiencePlaceholders = MiniPlaceholdersIntegration.audiencePlaceholders
 
         if (tabListConfig.playerName.isNotEmpty()) {
@@ -41,6 +43,6 @@ object TabList {
     }
 
     fun update() {
-        Bukkit.getOnlinePlayers().forEach(TabList::send)
+        Bukkit.getOnlinePlayers().forEach(::send)
     }
 }
