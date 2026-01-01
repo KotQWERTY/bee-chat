@@ -74,7 +74,7 @@ class BeeChat : JavaPlugin() {
         Metrics(this, 24314)
 
         if (config.access().checkForUpdates) {
-            checkForUpdatesAsync()
+            checkForUpdates()
         }
     }
 
@@ -93,7 +93,7 @@ class BeeChat : JavaPlugin() {
         tabList.enable && tabList.updatePeriod > 0
     }
 
-    private fun checkForUpdatesAsync() {
+    private fun checkForUpdates() {
         server.asyncScheduler.runNow(this) {
             UpdateChecker(pluginMeta).checkForUpdates(componentLogger)
         }
