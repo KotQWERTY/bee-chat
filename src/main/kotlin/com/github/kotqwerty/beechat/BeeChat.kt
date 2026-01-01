@@ -73,7 +73,9 @@ class BeeChat : JavaPlugin() {
 
         Metrics(this, 24314)
 
-        checkForUpdatesAsync()
+        if (config.access().checkForUpdates) {
+            checkForUpdatesAsync()
+        }
     }
 
     fun reload() {
@@ -92,10 +94,8 @@ class BeeChat : JavaPlugin() {
     }
 
     private fun checkForUpdatesAsync() {
-        if (config.access().checkForUpdates) {
-            server.asyncScheduler.runNow(this) {
-                UpdateChecker(pluginMeta).checkForUpdates(componentLogger)
-            }
+        server.asyncScheduler.runNow(this) {
+            UpdateChecker(pluginMeta).checkForUpdates(componentLogger)
         }
     }
 
