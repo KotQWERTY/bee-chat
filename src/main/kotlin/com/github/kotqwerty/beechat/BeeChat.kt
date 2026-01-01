@@ -15,8 +15,21 @@ import org.spongepowered.configurate.kotlin.objectMapperFactory
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader
 
 class BeeChat : JavaPlugin() {
-    val config = Configuration {
-        val configFile = dataFolder.resolve("config.yml")
+    private val configurations = mutableMapOf<String, Configuration<*>>()
+
+    val config = addConfiguration("config.yml", default = ::PluginConfig)
+
+    private val tabListUpdateTask = Task(execute = TabList::update)
+
+    init {
+        instance = this
+    }
+
+    private inline fun <reified T> addConfiguration(
+        name: String,
+        noinline default: () -> T,
+    ): Configuration<T> {
+        val configFile = dataFolder.resolve(name)
 
         val loader = YamlConfigurationLoader.builder()
             .file(configFile)
@@ -27,21 +40,23 @@ class BeeChat : JavaPlugin() {
             }
             .build()
 
-        saveDefaultConfig()
+        val configuration = Configuration {
+            if (!configFile.exists()) {
+                saveResource(name, false)
+            }
 
-        try {
-            loader.load().get<PluginConfig>(default = ::PluginConfig)
-        } catch (e: Exception) {
-            componentLogger.error("Failed to load config.yml:", e)
-            componentLogger.warn("Using the default configuration due to a previous error")
-            PluginConfig()
+            try {
+                loader.load().get<T>(default)
+            } catch (e: Exception) {
+                componentLogger.error("Failed to load configuration '$name':", e)
+                componentLogger.warn("Using the default configuration for '$name' due to a previous error")
+                default()
+            }
         }
-    }
 
-    private val tabListUpdateTask = Task(execute = TabList::update)
+        configurations[name] = configuration
 
-    init {
-        instance = this
+        return configuration
     }
 
     override fun onEnable() {
@@ -61,7 +76,11 @@ class BeeChat : JavaPlugin() {
     }
 
     fun reload() {
-        config.reload()
+        for ((configName, config) in configurations) {
+            componentLogger.info("Reloading configuration '$configName'...")
+            config.reload()
+        }
+
         if (shouldRestartTabListTask()) {
             tabListUpdateTask.runTimer(period = config.access().tabList.updatePeriod)
         }
