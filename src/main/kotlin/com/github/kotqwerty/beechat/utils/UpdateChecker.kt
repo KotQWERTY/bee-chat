@@ -1,9 +1,9 @@
 package com.github.kotqwerty.beechat.utils
 
-import com.github.kotqwerty.beechat.BeeChat
 import io.github.z4kn4fein.semver.Version
 import io.github.z4kn4fein.semver.toVersion
 import io.github.z4kn4fein.semver.toVersionOrNull
+import io.papermc.paper.plugin.configuration.PluginMeta
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.NamedTextColor
@@ -14,13 +14,11 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
-object UpdateChecker {
-    private const val LATEST_VERSION_URL = "https://hangar.papermc.io/api/v1/projects/BeeChat/latest?channel=Release"
-
+class UpdateChecker(private val pluginMeta: PluginMeta) {
     fun checkForUpdates(logger: ComponentLogger) {
         logger.info(Message.CHECKING_FOR_UPDATES)
 
-        val currentVersion = BeeChat.instance.pluginMeta.version.toVersion()
+        val currentVersion = pluginMeta.version.toVersion()
         val latestVersion = latestVersion()
 
         if (latestVersion == null) {
@@ -59,6 +57,10 @@ object UpdateChecker {
         } else {
             null
         }
+    }
+
+    companion object {
+        private const val LATEST_VERSION_URL = "https://hangar.papermc.io/api/v1/projects/BeeChat/latest?channel=Release"
     }
 
     private object Message {
