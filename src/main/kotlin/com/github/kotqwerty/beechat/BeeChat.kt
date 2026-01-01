@@ -93,7 +93,9 @@ class BeeChat : JavaPlugin() {
 
     private fun checkForUpdatesAsync() {
         if (config.access().checkForUpdates) {
-            Task { UpdateChecker(pluginMeta).checkForUpdates(componentLogger) }.runAsync()
+            server.asyncScheduler.runNow(this) {
+                UpdateChecker(pluginMeta).checkForUpdates(componentLogger)
+            }
         }
     }
 
