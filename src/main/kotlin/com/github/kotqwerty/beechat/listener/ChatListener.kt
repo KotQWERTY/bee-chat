@@ -1,8 +1,9 @@
 package com.github.kotqwerty.beechat.listener
 
-import com.github.kotqwerty.beechat.BeeChat
 import com.github.kotqwerty.beechat.Placeholders
 import com.github.kotqwerty.beechat.configuration.ChatChannelConfig
+import com.github.kotqwerty.beechat.configuration.Configuration
+import com.github.kotqwerty.beechat.configuration.PluginConfig
 import com.github.kotqwerty.beechat.extensions.spyModeEnabled
 import com.github.kotqwerty.beechat.integration.MiniPlaceholdersIntegration
 import com.github.kotqwerty.beechat.integration.PlaceholderAPIIntegration
@@ -14,16 +15,16 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 
-object ChatListener : Listener {
+class ChatListener(private val config: Configuration<PluginConfig>) : Listener {
     @EventHandler
     fun onChat(event: AsyncChatEvent) {
-        val config = BeeChat.instance.config.access().chat
+        val chatConfig = config.access().chat
         val sender = event.player
-        val format = PlaceholderAPIIntegration.parsePlaceholders(sender, config.messageFormat)
+        val format = PlaceholderAPIIntegration.parsePlaceholders(sender, chatConfig.messageFormat)
         if (format.isEmpty()) return
 
         var message = event.signedMessage().message()
-        val channel = findChannel(sender, message, config.channels)
+        val channel = findChannel(sender, message, chatConfig.channels)
 
         channel?.let {
             message = message.removePrefix(it.identifier)
@@ -47,7 +48,7 @@ object ChatListener : Listener {
             if (!shouldApplySpyFormatting) return@renderer channelMessage
 
             val spyTags = TagResolver.resolver(channelTags, Placeholders.channelMessage(channelMessage))
-            MiniMessage.miniMessage().deserialize(config.spy.format, source, spyTags)
+            MiniMessage.miniMessage().deserialize(chatConfig.spy.format, source, spyTags)
         }
     }
 
