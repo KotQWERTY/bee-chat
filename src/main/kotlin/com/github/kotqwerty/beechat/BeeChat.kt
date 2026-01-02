@@ -101,7 +101,8 @@ class BeeChat : JavaPlugin() {
 
     private fun registerCommand() {
         lifecycleManager.registerEventHandler(LifecycleEvents.COMMANDS.newHandler { event ->
-            event.registrar().register(BeeChatCommand.root())
+            val command = BeeChatCommand(plugin = this)
+            event.registrar().register(command.root())
         })
     }
 

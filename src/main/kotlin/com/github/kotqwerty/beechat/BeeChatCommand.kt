@@ -7,7 +7,7 @@ import io.papermc.paper.command.brigadier.CommandSourceStack
 import io.papermc.paper.command.brigadier.Commands
 import org.bukkit.entity.Player
 
-object BeeChatCommand {
+class BeeChatCommand(private val plugin: BeeChat) {
     fun root(): LiteralCommandNode<CommandSourceStack> = Commands.literal("beechat")
         .then(reload())
         .then(spy())
@@ -18,9 +18,7 @@ object BeeChatCommand {
         .executes { ctx ->
             val sender = ctx.source.sender
 
-            val plugin = BeeChat.instance
             plugin.reload()
-
             sender.sendRichMessage(plugin.config.access().messages.reload)
 
             Command.SINGLE_SUCCESS
@@ -31,7 +29,6 @@ object BeeChatCommand {
         .executes { ctx ->
             val sender = ctx.source.sender
 
-            val plugin = BeeChat.instance
             val messages = plugin.config.access().messages
 
             if (sender !is Player) {
