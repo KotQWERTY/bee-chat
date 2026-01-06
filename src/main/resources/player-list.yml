@@ -1,0 +1,4 @@
+update-period: 200
+header: "<br><gradient:yellow:gold>Example Server<br>"
+footer: "<br><yellow>Store: <gray>store.example.com<br>"
+player-name: "<name>"
