@@ -1,0 +1,38 @@
+default-channel: "local"
+reset-channel-on-player-quit: true
+
+channels:
+  global:
+    display-name: "<gold>ɢʟᴏʙᴀʟ</gold>"
+    format: "<gold>ɢʟᴏʙᴀʟ</gold> <player_name> <dark_gray>→</dark_gray> <white><message></white>"
+    message-prefix: "!"
+    command:
+      label: "global"
+      description: "Set ɢʟᴏʙᴀʟ chat as default"
+
+  local:
+    display-name: "<aqua>ʟᴏᴄᴀʟ</aqua>"
+    format: "<aqua>ʟᴏᴄᴀʟ</aqua> <player_name> <dark_gray>→</dark_gray> <gray><message></gray>"
+    max-distance: 50
+    command:
+      label: "local"
+      description: "Set ʟᴏᴄᴀʟ chat as default"
+
+  trade:
+    display-name: "<green>ᴛʀᴀᴅᴇ</green>"
+    format: "<green>ᴛʀᴀᴅᴇ</green> <player_name> <dark_gray>→</dark_gray> <dark_green><message></dark_green>"
+    message-prefix: "$"
+    sound:
+      type: "minecraft:entity.villager.trade"
+    command:
+      label: "trade"
+      description: "Set ᴛʀᴀᴅᴇ chat as default"
+
+  staff:
+    display-name: "<red>ꜱᴛᴀꜰꜰ</red>"
+    format: "<red>ꜱᴛᴀꜰꜰ</red> <player_name> <dark_gray>→</dark_gray> <white><message></white>"
+    has-send-permission: true
+    has-receive-permission: true
+    command:
+      label: "staff"
+      description: "Set ꜱᴛᴀꜰꜰ chat as default"
