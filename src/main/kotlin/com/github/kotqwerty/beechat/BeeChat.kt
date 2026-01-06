@@ -17,7 +17,7 @@ import org.spongepowered.configurate.yaml.YamlConfigurationLoader
 class BeeChat : JavaPlugin() {
     private val configurations = mutableMapOf<String, Configuration<*>>()
 
-    val config = addConfiguration("config.yml", default = ::PluginConfig)
+    val config = addConfiguration("config_v1.yml", default = ::PluginConfig)
 
     private val tabList = TabList(config)
     private val tabListUpdateTask = Task(execute = tabList::update)
