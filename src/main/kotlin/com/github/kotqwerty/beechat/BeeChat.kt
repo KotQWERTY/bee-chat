@@ -20,7 +20,7 @@ class BeeChat : JavaPlugin() {
     val config = addConfiguration("config_v1.yml", default = ::PluginConfig)
 
     private val tabList = TabList(config)
-    private val tabListUpdateTask = Task(execute = tabList::update)
+    private val tabListUpdateTask = Task(plugin = this, execute = tabList::update)
 
     init {
         instance = this
