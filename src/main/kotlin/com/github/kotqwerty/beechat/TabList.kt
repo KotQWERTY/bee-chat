@@ -1,7 +1,7 @@
 package com.github.kotqwerty.beechat
 
 import com.github.kotqwerty.beechat.configuration.Configuration
-import com.github.kotqwerty.beechat.configuration.PluginConfig
+import com.github.kotqwerty.beechat.config_v1.PluginConfig
 import com.github.kotqwerty.beechat.integration.MiniPlaceholdersIntegration
 import com.github.kotqwerty.beechat.integration.PlaceholderAPIIntegration
 import net.kyori.adventure.text.minimessage.MiniMessage

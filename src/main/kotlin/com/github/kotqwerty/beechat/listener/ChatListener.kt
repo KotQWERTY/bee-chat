@@ -1,9 +1,9 @@
 package com.github.kotqwerty.beechat.listener
 
 import com.github.kotqwerty.beechat.Placeholders
-import com.github.kotqwerty.beechat.configuration.ChatChannelConfig
+import com.github.kotqwerty.beechat.config_v1.ChatChannelConfig
 import com.github.kotqwerty.beechat.configuration.Configuration
-import com.github.kotqwerty.beechat.configuration.PluginConfig
+import com.github.kotqwerty.beechat.config_v1.PluginConfig
 import com.github.kotqwerty.beechat.extensions.spyModeEnabled
 import com.github.kotqwerty.beechat.integration.MiniPlaceholdersIntegration
 import com.github.kotqwerty.beechat.integration.PlaceholderAPIIntegration

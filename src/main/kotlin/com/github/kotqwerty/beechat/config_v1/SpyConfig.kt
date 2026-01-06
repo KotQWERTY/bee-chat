@@ -1,4 +1,4 @@
-package com.github.kotqwerty.beechat.configuration
+package com.github.kotqwerty.beechat.config_v1
 
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
 

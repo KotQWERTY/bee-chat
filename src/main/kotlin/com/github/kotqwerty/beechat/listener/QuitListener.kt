@@ -1,7 +1,7 @@
 package com.github.kotqwerty.beechat.listener
 
 import com.github.kotqwerty.beechat.configuration.Configuration
-import com.github.kotqwerty.beechat.configuration.PluginConfig
+import com.github.kotqwerty.beechat.config_v1.PluginConfig
 import com.github.kotqwerty.beechat.extensions.spyModeEnabled
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

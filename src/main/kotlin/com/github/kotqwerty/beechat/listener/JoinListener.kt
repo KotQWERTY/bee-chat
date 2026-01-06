@@ -2,7 +2,7 @@ package com.github.kotqwerty.beechat.listener
 
 import com.github.kotqwerty.beechat.TabList
 import com.github.kotqwerty.beechat.configuration.Configuration
-import com.github.kotqwerty.beechat.configuration.PluginConfig
+import com.github.kotqwerty.beechat.config_v1.PluginConfig
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
