@@ -2,6 +2,7 @@ package com.github.kotqwerty.beechat
 
 import com.github.kotqwerty.beechat.config_v1.PluginConfig
 import com.github.kotqwerty.beechat.configuration.Configuration
+import com.github.kotqwerty.beechat.configuration.PluginConfiguration
 import com.github.kotqwerty.beechat.extensions.register
 import com.github.kotqwerty.beechat.listener.ChatListener
 import com.github.kotqwerty.beechat.listener.JoinListener
@@ -18,6 +19,8 @@ class BeeChat : JavaPlugin() {
     private val configurations = mutableMapOf<String, Configuration<*>>()
 
     val config = addConfiguration("config_v1.yml", default = ::PluginConfig)
+
+    val pluginConfig = addConfiguration("config.yml", default = ::PluginConfiguration)
 
     private val tabList = TabList(config)
     private val tabListUpdateTask = Task(plugin = this, execute = tabList::update)
