@@ -22,10 +22,6 @@ class BeeChat : JavaPlugin() {
     private val tabList = TabList(config)
     private val tabListUpdateTask = Task(plugin = this, execute = tabList::update)
 
-    init {
-        instance = this
-    }
-
     private inline fun <reified T> addConfiguration(
         name: String,
         noinline default: () -> T,
@@ -107,6 +103,6 @@ class BeeChat : JavaPlugin() {
     }
 
     companion object {
-        lateinit var instance: BeeChat private set
+        const val NAMESPACE = "beechat"
     }
 }
