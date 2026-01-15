@@ -86,12 +86,15 @@ class BeeChat : JavaPlugin() {
         }
 
         if (shouldRestartTabListTask()) {
-            tabListUpdateTask.runTimer(period = config.access().tabList.updatePeriod)
+            tabListUpdateTask.runTimer(period = playerListConfig.access().updatePeriod)
         }
     }
 
-    private fun shouldRestartTabListTask(): Boolean = config.access().run {
-        tabList.enable && tabList.updatePeriod > 0
+    private fun shouldRestartTabListTask(): Boolean {
+        val isEnabled = pluginConfig.access().enablePlayerList
+        val updatePeriod = playerListConfig.access().updatePeriod
+
+        return isEnabled && updatePeriod > 0
     }
 
     private fun checkForUpdates() {
