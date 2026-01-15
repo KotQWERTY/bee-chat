@@ -15,21 +15,18 @@ class PlayerList(private val config: Configuration<PlayerListConfiguration>) {
         val audiencePlaceholders = MiniPlaceholdersIntegration.audiencePlaceholders
 
         if (config.playerName.isNotEmpty()) {
-            val tabListName = PlaceholderAPIIntegration.parsePlaceholders(player, config.playerName)
+            val playerName = PlaceholderAPIIntegration.parsePlaceholders(player, config.playerName)
 
             val tags = TagResolver.resolver(
                 Placeholders.name(player.displayName()),
                 audiencePlaceholders
             )
 
-            player.playerListName(MiniMessage.miniMessage().deserialize(tabListName, player, tags))
+            player.playerListName(MiniMessage.miniMessage().deserialize(playerName, player, tags))
         }
 
-        var tabListHeader = config.header
-        var tabListFooter = config.footer
-
-        tabListHeader = PlaceholderAPIIntegration.parsePlaceholders(player, tabListHeader)
-        tabListFooter = PlaceholderAPIIntegration.parsePlaceholders(player, tabListFooter)
+        val header = PlaceholderAPIIntegration.parsePlaceholders(player, config.header)
+        val footer = PlaceholderAPIIntegration.parsePlaceholders(player, config.footer)
 
         val placeholders = TagResolver.resolver(
             MiniPlaceholdersIntegration.globalPlaceholders,
@@ -37,8 +34,8 @@ class PlayerList(private val config: Configuration<PlayerListConfiguration>) {
         )
 
         player.sendPlayerListHeaderAndFooter(
-            MiniMessage.miniMessage().deserialize(tabListHeader, player, placeholders),
-            MiniMessage.miniMessage().deserialize(tabListFooter, player, placeholders),
+            MiniMessage.miniMessage().deserialize(header, player, placeholders),
+            MiniMessage.miniMessage().deserialize(footer, player, placeholders),
         )
     }
 
