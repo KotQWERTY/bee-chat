@@ -1,7 +1,7 @@
 package com.github.kotqwerty.beechat
 
 import com.github.kotqwerty.beechat.configuration.Configuration
-import com.github.kotqwerty.beechat.config_v1.PluginConfig
+import com.github.kotqwerty.beechat.configuration.PlayerListConfiguration
 import com.github.kotqwerty.beechat.integration.MiniPlaceholdersIntegration
 import com.github.kotqwerty.beechat.integration.PlaceholderAPIIntegration
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -9,13 +9,13 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
-class TabList(private val config: Configuration<PluginConfig>) {
+class TabList(private val config: Configuration<PlayerListConfiguration>) {
     fun send(player: Player) {
-        val tabListConfig = config.access().tabList
+        val config = config.access()
         val audiencePlaceholders = MiniPlaceholdersIntegration.audiencePlaceholders
 
-        if (tabListConfig.playerName.isNotEmpty()) {
-            val tabListName = PlaceholderAPIIntegration.parsePlaceholders(player, tabListConfig.playerName)
+        if (config.playerName.isNotEmpty()) {
+            val tabListName = PlaceholderAPIIntegration.parsePlaceholders(player, config.playerName)
 
             val tags = TagResolver.resolver(
                 Placeholders.name(player.displayName()),
@@ -25,8 +25,8 @@ class TabList(private val config: Configuration<PluginConfig>) {
             player.playerListName(MiniMessage.miniMessage().deserialize(tabListName, player, tags))
         }
 
-        var tabListHeader = tabListConfig.header
-        var tabListFooter = tabListConfig.footer
+        var tabListHeader = config.header
+        var tabListFooter = config.footer
 
         tabListHeader = PlaceholderAPIIntegration.parsePlaceholders(player, tabListHeader)
         tabListFooter = PlaceholderAPIIntegration.parsePlaceholders(player, tabListFooter)

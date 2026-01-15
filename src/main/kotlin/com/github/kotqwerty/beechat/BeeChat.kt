@@ -24,7 +24,7 @@ class BeeChat : JavaPlugin() {
     val pluginConfig = addConfiguration("config.yml", default = ::PluginConfiguration)
     val playerListConfig = addConfiguration("player-list.yml", default = ::PlayerListConfiguration)
 
-    private val tabList = TabList(config)
+    private val tabList = TabList(playerListConfig)
     private val tabListUpdateTask = Task(plugin = this, execute = tabList::update)
 
     private inline fun <reified T> addConfiguration(
