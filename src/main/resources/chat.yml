@@ -36,3 +36,21 @@ channels:
     command:
       label: "staff"
       description: "Set ꜱᴛᴀꜰꜰ chat as default"
+
+private-messages:
+  enable: true
+  command:
+    label: "msg"
+    aliases:
+      - "w"
+      - "tell"
+  message-incoming: "<player_name> whispers to you: <message>"
+  message-outgoing: "You whisper to <player_name>: <message>"
+
+spy-mode:
+  enable: true
+  disable-on-player-quit: true
+  enable-for-private-messages: true
+  format: "<aqua>ꜱᴘʏ</aqua> <formatted_message>"
+  channels:
+    - "local"
