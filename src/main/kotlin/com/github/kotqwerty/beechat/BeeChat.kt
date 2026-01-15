@@ -24,8 +24,8 @@ class BeeChat : JavaPlugin() {
     val pluginConfig = addConfiguration("config.yml", default = ::PluginConfiguration)
     val playerListConfig = addConfiguration("player-list.yml", default = ::PlayerListConfiguration)
 
-    private val tabList = TabList(playerListConfig)
-    private val tabListUpdateTask = Task(plugin = this, execute = tabList::update)
+    private val playerList = PlayerList(playerListConfig)
+    private val playerListUpdateTask = Task(plugin = this, execute = playerList::update)
 
     private inline fun <reified T> addConfiguration(
         name: String,
@@ -69,7 +69,7 @@ class BeeChat : JavaPlugin() {
         registerCommand()
 
         ChatListener(config).register(this)
-        JoinListener(pluginConfig, tabList).register(this)
+        JoinListener(pluginConfig, playerList).register(this)
         QuitListener(config).register(this)
 
         Metrics(this, 24314)
@@ -86,7 +86,7 @@ class BeeChat : JavaPlugin() {
         }
 
         if (shouldRestartTabListTask()) {
-            tabListUpdateTask.runTimer(period = playerListConfig.access().updatePeriod)
+            playerListUpdateTask.runTimer(period = playerListConfig.access().updatePeriod)
         }
     }
 

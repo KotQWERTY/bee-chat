@@ -9,7 +9,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
-class TabList(private val config: Configuration<PlayerListConfiguration>) {
+class PlayerList(private val config: Configuration<PlayerListConfiguration>) {
     fun send(player: Player) {
         val config = config.access()
         val audiencePlaceholders = MiniPlaceholdersIntegration.audiencePlaceholders
