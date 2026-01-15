@@ -7,6 +7,6 @@ import org.bukkit.persistence.PersistentDataType
 
 var Player.spyModeEnabled: Boolean
     get() = hasPermission(Permissions.spy) && persistentDataContainer
-        .getOrDefault(Keys.spyModeEnabled, PersistentDataType.BOOLEAN, false)
+        .getOrDefault(Keys.SPY_MODE, PersistentDataType.BOOLEAN, false)
     set(value) = persistentDataContainer
-        .set(Keys.spyModeEnabled, PersistentDataType.BOOLEAN, value)
+        .set(Keys.SPY_MODE, PersistentDataType.BOOLEAN, value)
