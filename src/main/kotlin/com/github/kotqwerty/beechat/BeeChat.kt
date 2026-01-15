@@ -81,7 +81,7 @@ class BeeChat : JavaPlugin() {
 
     fun reload() {
         for ((configName, config) in configurations) {
-            componentLogger.info("Reloading configuration '$configName'...")
+            componentLogger.info("Loading configuration '$configName'...")
             config.reload()
         }
 
