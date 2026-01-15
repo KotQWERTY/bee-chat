@@ -74,7 +74,7 @@ class BeeChat : JavaPlugin() {
 
         Metrics(this, 24314)
 
-        if (config.access().checkForUpdates) {
+        if (pluginConfig.access().checkForUpdates) {
             checkForUpdates()
         }
     }
