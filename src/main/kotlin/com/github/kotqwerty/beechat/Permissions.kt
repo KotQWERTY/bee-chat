@@ -53,5 +53,5 @@ object Permissions {
         pluginPermission("format.$name")
 
     private fun pluginPermission(name: String) =
-        Permission("beechat.$name")
+        Permission("${BeeChat.NAMESPACE}.$name")
 }
