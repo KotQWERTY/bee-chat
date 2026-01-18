@@ -1,6 +1,7 @@
 package com.github.kotqwerty.beechat
 
 import com.github.kotqwerty.beechat.config_v1.PluginConfig
+import com.github.kotqwerty.beechat.configuration.ChatConfiguration
 import com.github.kotqwerty.beechat.configuration.Configuration
 import com.github.kotqwerty.beechat.configuration.Messages
 import com.github.kotqwerty.beechat.configuration.PlayerListConfiguration
@@ -24,6 +25,7 @@ class BeeChat : JavaPlugin() {
 
     val pluginConfig = addConfiguration("config.yml", default = ::PluginConfiguration)
     val messages = addConfiguration("messages.yml", default = ::Messages)
+    val chatConfig = addConfiguration("chat.yml", default = ::ChatConfiguration)
     val playerListConfig = addConfiguration("player-list.yml", default = ::PlayerListConfiguration)
 
     private val playerList = PlayerList(playerListConfig)
@@ -72,7 +74,7 @@ class BeeChat : JavaPlugin() {
 
         ChatListener(config).register(this)
         JoinListener(pluginConfig, playerList).register(this)
-        QuitListener(config).register(this)
+        QuitListener(chatConfig).register(this)
 
         Metrics(this, 24314)
 
