@@ -12,6 +12,6 @@ data class ChatChannel(
     val command: CommandConfiguration? = null,
     val maxDistance: Int = 0,
     val sound: SoundConfiguration? = null,
-    val hasSendPermission: Boolean = false,
-    val hasReceivePermission: Boolean = false,
+    val sendPermission: String = "",
+    val receivePermission: String = "",
 )

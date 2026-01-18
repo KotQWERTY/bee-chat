@@ -31,8 +31,8 @@ channels:
   staff:
     display-name: "<red>ꜱᴛᴀꜰꜰ</red>"
     format: "<red>ꜱᴛᴀꜰꜰ</red> <player_name> <dark_gray>→</dark_gray> <white><message></white>"
-    has-send-permission: true
-    has-receive-permission: true
+    send-permission: "beechat.channel.staff.send"
+    receive-permission: "beechat.channel.staff.receive"
     command:
       label: "staff"
       description: "Set ꜱᴛᴀꜰꜰ chat as default"
