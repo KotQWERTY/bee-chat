@@ -23,7 +23,7 @@ channels:
     format: "<green>ᴛʀᴀᴅᴇ</green> <player_name> <dark_gray>→</dark_gray> <dark_green><message></dark_green>"
     message-prefix: "$"
     sound:
-      type: "minecraft:entity.villager.trade"
+      key: "minecraft:entity.villager.trade"
     command:
       label: "trade"
       description: "Set ᴛʀᴀᴅᴇ chat as default"
