@@ -72,7 +72,7 @@ class BeeChat : JavaPlugin() {
 
         registerCommand()
 
-        ChatListener(config).register(this)
+        ChatListener(chatConfig).register(this)
         JoinListener(pluginConfig, playerList).register(this)
         QuitListener(chatConfig).register(this)
 
