@@ -1,12 +1,13 @@
 package com.github.kotqwerty.beechat.listener
 
 import com.github.kotqwerty.beechat.Keys
+import com.github.kotqwerty.beechat.Permissions
 import com.github.kotqwerty.beechat.Placeholders
 import com.github.kotqwerty.beechat.chat.ChatChannel
 import com.github.kotqwerty.beechat.configuration.Configuration
 import com.github.kotqwerty.beechat.configuration.ChatConfiguration
+import com.github.kotqwerty.beechat.extensions.getBool
 import com.github.kotqwerty.beechat.extensions.getStringOrNull
-import com.github.kotqwerty.beechat.extensions.spyModeEnabled
 import com.github.kotqwerty.beechat.integration.MiniPlaceholdersIntegration
 import com.github.kotqwerty.beechat.integration.PlaceholderAPIIntegration
 import io.papermc.paper.event.player.AsyncChatEvent
@@ -76,8 +77,9 @@ class ChatListener(private val config: Configuration<ChatConfiguration>) : Liste
     private fun filterViewers(sender: Player, channel: ChatChannel, viewers: MutableSet<Audience>) {
         viewers.removeAll { viewer ->
             if (viewer !is Player) return@removeAll false
+            val isSpy = viewer.persistentDataContainer.getBool(Keys.SPY_MODE) && viewer.hasPermission(Permissions.spy)
 
-            !canReceiveMessage(sender, viewer, channel) && !viewer.spyModeEnabled
+            !canReceiveMessage(sender, viewer, channel) && !isSpy
         }
     }
 

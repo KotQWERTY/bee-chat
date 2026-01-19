@@ -1,6 +1,7 @@
 package com.github.kotqwerty.beechat
 
-import com.github.kotqwerty.beechat.extensions.spyModeEnabled
+import com.github.kotqwerty.beechat.extensions.getBool
+import com.github.kotqwerty.beechat.extensions.setBool
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.tree.LiteralCommandNode
 import io.papermc.paper.command.brigadier.CommandSourceStack
@@ -36,11 +37,11 @@ class BeeChatCommand(private val plugin: BeeChat) {
                 return@executes Command.SINGLE_SUCCESS
             }
 
-            if (sender.spyModeEnabled) {
-                sender.spyModeEnabled = false
+            if (sender.persistentDataContainer.getBool(Keys.SPY_MODE)) {
+                sender.persistentDataContainer.setBool(Keys.SPY_MODE, false)
                 sender.sendRichMessage(messages.spyModeDisabled)
             } else {
-                sender.spyModeEnabled = true
+                sender.persistentDataContainer.setBool(Keys.SPY_MODE, true)
                 sender.sendRichMessage(messages.spyModeEnabled)
             }
 
