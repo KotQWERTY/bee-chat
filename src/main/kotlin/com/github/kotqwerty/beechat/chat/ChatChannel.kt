@@ -8,7 +8,7 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable
 data class ChatChannel(
     val displayName: String,
     val format: String,
-    val messagePrefix: Char? = null,
+    val messagePrefix: String = "",
     val command: CommandConfiguration? = null,
     val maxDistance: Int = 0,
     val sound: SoundConfiguration? = null,
