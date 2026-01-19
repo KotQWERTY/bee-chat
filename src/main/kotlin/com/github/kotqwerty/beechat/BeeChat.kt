@@ -28,40 +28,6 @@ class BeeChat : JavaPlugin() {
     private val playerList = PlayerList(playerListConfig)
     private val playerListUpdateTask = Task(plugin = this, execute = playerList::update)
 
-    private inline fun <reified T> addConfiguration(
-        name: String,
-        noinline default: () -> T,
-    ): Configuration<T> {
-        val configFile = dataFolder.resolve(name)
-
-        val loader = YamlConfigurationLoader.builder()
-            .file(configFile)
-            .defaultOptions { options ->
-                options.serializers { builder ->
-                    builder.registerAnnotatedObjects(objectMapperFactory())
-                }
-            }
-            .build()
-
-        val configuration = Configuration {
-            if (!configFile.exists()) {
-                saveResource(name, false)
-            }
-
-            try {
-                loader.load().get<T>(default)
-            } catch (e: Exception) {
-                componentLogger.error("Failed to load configuration '$name':", e)
-                componentLogger.warn("Using the default configuration for '$name' due to a previous error")
-                default()
-            }
-        }
-
-        configurations[name] = configuration
-
-        return configuration
-    }
-
     override fun onEnable() {
         reload()
 
@@ -109,6 +75,40 @@ class BeeChat : JavaPlugin() {
             val command = BeeChatCommand(plugin = this)
             event.registrar().register(command.root())
         })
+    }
+
+    private inline fun <reified T> addConfiguration(
+        name: String,
+        noinline default: () -> T,
+    ): Configuration<T> {
+        val configFile = dataFolder.resolve(name)
+
+        val loader = YamlConfigurationLoader.builder()
+            .file(configFile)
+            .defaultOptions { options ->
+                options.serializers { builder ->
+                    builder.registerAnnotatedObjects(objectMapperFactory())
+                }
+            }
+            .build()
+
+        val configuration = Configuration {
+            if (!configFile.exists()) {
+                saveResource(name, false)
+            }
+
+            try {
+                loader.load().get<T>(default)
+            } catch (e: Exception) {
+                componentLogger.error("Failed to load configuration '$name':", e)
+                componentLogger.warn("Using the default configuration for '$name' due to a previous error")
+                default()
+            }
+        }
+
+        configurations[name] = configuration
+
+        return configuration
     }
 
     companion object {
