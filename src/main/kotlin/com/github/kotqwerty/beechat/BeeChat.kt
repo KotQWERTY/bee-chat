@@ -1,6 +1,5 @@
 package com.github.kotqwerty.beechat
 
-import com.github.kotqwerty.beechat.config_v1.PluginConfig
 import com.github.kotqwerty.beechat.configuration.ChatConfiguration
 import com.github.kotqwerty.beechat.configuration.Configuration
 import com.github.kotqwerty.beechat.configuration.Messages
@@ -20,8 +19,6 @@ import org.spongepowered.configurate.yaml.YamlConfigurationLoader
 
 class BeeChat : JavaPlugin() {
     private val configurations = mutableMapOf<String, Configuration<*>>()
-
-    val config = addConfiguration("config_v1.yml", default = ::PluginConfig)
 
     val pluginConfig = addConfiguration("config.yml", default = ::PluginConfiguration)
     val messages = addConfiguration("messages.yml", default = ::Messages)
