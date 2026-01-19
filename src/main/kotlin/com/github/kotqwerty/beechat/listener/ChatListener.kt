@@ -77,7 +77,7 @@ class ChatListener(private val config: Configuration<ChatConfiguration>) : Liste
     private fun filterViewers(sender: Player, channel: ChatChannel, viewers: MutableSet<Audience>) {
         viewers.removeAll { viewer ->
             if (viewer !is Player) return@removeAll false
-            val isSpy = viewer.persistentDataContainer.getBool(Keys.SPY_MODE) && viewer.hasPermission(Permissions.spy)
+            val isSpy = viewer.persistentDataContainer.getBool(Keys.SPY_MODE) && viewer.hasPermission(Permissions.SPY)
 
             !canReceiveMessage(sender, viewer, channel) && !isSpy
         }

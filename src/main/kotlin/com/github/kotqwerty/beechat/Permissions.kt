@@ -7,8 +7,8 @@ import org.bukkit.entity.Player
 import org.bukkit.permissions.Permission
 
 object Permissions {
-    val reload = pluginPermission("reload")
-    val spy = pluginPermission("spy")
+    val RELOAD = pluginPermission("RELOAD")
+    val SPY = pluginPermission("SPY")
 
     private val allMessageFormatting = formatPermission("all")
     private val messageFormattingPermissions = mapOf(
@@ -31,8 +31,8 @@ object Permissions {
     fun register() {
         val pm = Bukkit.getPluginManager()
 
-        pm.addPermission(reload)
-        pm.addPermission(spy)
+        pm.addPermission(RELOAD)
+        pm.addPermission(SPY)
         pm.addPermission(allMessageFormatting)
         messageFormattingPermissions.keys.forEach(pm::addPermission)
     }

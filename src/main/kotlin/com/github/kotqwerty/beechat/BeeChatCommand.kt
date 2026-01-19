@@ -15,7 +15,7 @@ class BeeChatCommand(private val plugin: BeeChat) {
         .build()
 
     private fun reload() = Commands.literal("reload")
-        .requires { it.sender.hasPermission(Permissions.reload) }
+        .requires { it.sender.hasPermission(Permissions.RELOAD) }
         .executes { ctx ->
             val sender = ctx.source.sender
 
@@ -26,7 +26,7 @@ class BeeChatCommand(private val plugin: BeeChat) {
         }
 
     private fun spy() = Commands.literal("spy")
-        .requires { it.sender.hasPermission(Permissions.spy) }
+        .requires { it.sender.hasPermission(Permissions.SPY) }
         .executes { ctx ->
             val sender = ctx.source.sender
 
