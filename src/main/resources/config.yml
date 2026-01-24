@@ -80,6 +80,7 @@ tab-list:
   #   <name> - player name
   player-name: '<name>'
 
+# This section does not support placeholders and legacy formatting.
 messages:
   # Message for '/beechat reload' command.
   reload: '<green>The <gradient:yellow:gold>BeeChat</gradient> configuration has been reloaded'
