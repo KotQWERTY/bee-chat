@@ -8,6 +8,11 @@
 # and does not affect startup performance.
 check-for-updates: true
 
+# This option enables the legacy ampersand formatter
+# in addition to MiniMessage for formats in the 'chat' and 'tab-list' sections.
+# It is recommended to leave this value as false, as it may slightly reduce performance.
+enable-legacy-formatter: false
+
 chat:
   # Message format for chat.
   # Placeholders:
