@@ -58,6 +58,12 @@ Permission for the command: **beechat.reload**
 ### Example configuration
 
 ```yaml
+check-for-updates: true
+
+legacy-formatter:
+  enable: false
+  character: '&'
+
 chat:
   message-format: '<luckperms_prefix><reset> <name> <yellow>→ <gray><message>'
   channels:
