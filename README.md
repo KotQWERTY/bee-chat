@@ -45,7 +45,8 @@ Tab header, footer and player name format can be customized in config.
 ## Configuration
 The default config can be found here: [https://github.com/KotQWERTY/bee-chat/blob/main/src/main/resources/config.yml](https://github.com/KotQWERTY/bee-chat/blob/main/src/main/resources/config.yml).
 
-The configuration file (`config.yml`) only supports [MiniMessage](https://docs.advntr.dev/minimessage/format.html) format. Legacy (ampersand) formatting is not supported.
+The configuration file (`config.yml`) supports [MiniMessage](https://docs.advntr.dev/minimessage/format.html) format.
+Legacy (ampersand) formatting is also supported, but only as a compatibility feature for some PlaceholderAPI placeholders that use legacy formatting. It can be enabled by setting `legacy-formatter.enable` to `true` in the config.yml file.
 
 You can use placeholders from [MiniPlaceholders](https://modrinth.com/plugin/miniplaceholders) and [PlaceholderAPI](https://hangar.papermc.io/HelpChat/PlaceholderAPI) in the configuration.
 
