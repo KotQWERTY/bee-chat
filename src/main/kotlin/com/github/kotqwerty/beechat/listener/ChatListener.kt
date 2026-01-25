@@ -6,6 +6,7 @@ import com.github.kotqwerty.beechat.configuration.ChatChannelConfig
 import com.github.kotqwerty.beechat.extensions.spyModeEnabled
 import com.github.kotqwerty.beechat.integration.MiniPlaceholdersIntegration
 import com.github.kotqwerty.beechat.integration.PlaceholderAPIIntegration
+import com.github.kotqwerty.beechat.utils.LegacyFormatTranslator
 import io.papermc.paper.event.player.AsyncChatEvent
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -19,7 +20,7 @@ object ChatListener : Listener {
     fun onChat(event: AsyncChatEvent) {
         val config = BeeChat.instance.config.chat
         val sender = event.player
-        val format = PlaceholderAPIIntegration.parsePlaceholders(sender, config.messageFormat)
+        val format = parseFormat(sender, config.messageFormat)
         if (format.isEmpty()) return
 
         var message = event.signedMessage().message()
@@ -41,14 +42,25 @@ object ChatListener : Listener {
             if (channel == null) return@renderer formattedMessage
 
             val channelTags = TagResolver.resolver(baseTags, Placeholders.formattedMessage(formattedMessage))
-            val channelMessage = MiniMessage.miniMessage().deserialize(channel.format, source, channelTags)
+            val channelMessage = MiniMessage.miniMessage().deserialize(parseFormat(source, channel.format), source, channelTags)
 
             val shouldApplySpyFormatting = viewer is Player && !channel.canSee(sender, viewer)
             if (!shouldApplySpyFormatting) return@renderer channelMessage
 
             val spyTags = TagResolver.resolver(channelTags, Placeholders.channelMessage(channelMessage))
-            MiniMessage.miniMessage().deserialize(config.spy.format, source, spyTags)
+            MiniMessage.miniMessage().deserialize(parseFormat(source, config.spy.format), source, spyTags)
         }
+    }
+
+    private fun parseFormat(player: Player, format: String): String {
+        val format = PlaceholderAPIIntegration.parsePlaceholders(player, format)
+        val config = BeeChat.instance.config
+
+        if (!config.legacyFormatter.enable) {
+            return format
+        }
+
+        return LegacyFormatTranslator.translate(config.legacyFormatter.character, format)
     }
 
     private fun findChannel(sender: Player, message: String, channels: List<ChatChannelConfig>) =
