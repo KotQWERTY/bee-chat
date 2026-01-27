@@ -18,8 +18,11 @@ data class ChatChannelConfig(
 
         var isAccessible = true
         if (distance > 0) {
-            val location = sender.location
-            isAccessible = location.distance(viewer.location) <= distance
+            if (sender.world != viewer.world) {
+                return false
+            }
+
+            isAccessible = sender.location.distance(viewer.location) <= distance
         }
 
         return hasPermission && isAccessible
